@@ -1,0 +1,40 @@
+.container{
+    text-align: center;
+    font-size: 25px;
+}
+
+.numerosSeleccionados{
+    max-width: 200px !important;
+    max-height: 200px !important;
+}
+
+.jugadores{
+    display: flex;
+    justify-content: space-around;
+}
+
+.cartones{
+    display: block
+}
+
+.margen{
+    margin-right: 20px;
+}
+
+.numerosAcertados{
+    background-color: orange;
+}
+
+.numerosCarton{
+    background-color: white;
+}
+
+.carton{
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.ganador{
+    color: red;
+    font-weight: bold;
+}

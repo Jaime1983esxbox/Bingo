@@ -1,0 +1,34 @@
+<div class="container">
+    <div class="jugadores">
+        <div *ngIf="mostrarNumeros">
+            <h3>NÚMEROS SELECCIONADOS</h3>
+            <div class="numerosSeleccionados">
+                <span *ngFor="let numero of numerosBingo">{{numero}}<br></span>
+            </div>
+        </div>
+        <div>
+            <h1>BINGO</h1>
+            <label for="">Número de Jugadores</label><br>
+            <input [(ngModel)]="numeroJugadores" min="1" type="number"><br><br>
+            <input *ngIf="mostrarBotonInicio" class="margen" type="button" value="Iniciar" (click)="agregarJugadores()">
+            <input *ngIf="mostrarBotonComenzar" type="button" value="Comenzar Bingo" (click)="comenzarBingo()">
+            <input *ngIf="mostrarBotonNumero" type="button" value="Sacar Número" (click)="comenzarBingo()">
+            <input *ngIf="mostrarBotonNuevaPartida" type="button" value="Nueva Partida" (click)="nuevaPartida()">
+        </div>
+        <div *ngIf="mostrarNumeros">
+            <h3>NÚMERO ACTUAL</h3>
+            <span>{{numeroActual}}</span>
+        </div>
+    </div>
+    <div class="cartones" *ngIf="mostrarCartones">
+        <div *ngFor="let jugador of jugadores">
+            <p>{{jugador.nombre}}</p>
+            <div class="carton" *ngFor="let numero of jugador.carton">
+                <p [ngClass]="comprobarNumero(numero) ? 'numerosAcertados' : 'numerosCarton'">{{numero}}</p>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="mostrarGanador">
+        <p class="ganador">El {{jugadorGanador.nombre}} ha ganado</p>
+    </div>
+</div>

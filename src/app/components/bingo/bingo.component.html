@@ -28,7 +28,10 @@
             </div>
         </div>
     </div>
-    <div *ngIf="mostrarGanador">
-        <p class="ganador">El {{jugadorGanador.nombre}} ha ganado</p>
+    <div *ngIf="mostrarGanadorLinea">
+        <p class="ganador">El {{jugadorGanadorLinea.nombre}} ha cantado línea {{jugadorGanadorLinea.carton}}</p>
+    </div>
+    <div *ngIf="mostrarGanadorBingo">
+        <p class="ganador">El {{jugadorGanador.nombre}} ha cantado bingo</p>
     </div>
 </div>

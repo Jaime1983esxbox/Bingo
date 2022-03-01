@@ -12,9 +12,14 @@ export class BingoComponent implements OnInit {
   jugadores: Jugador[] = [];
   jugador: Jugador = new Jugador();
   jugadorGanador!: Jugador;
+  jugadorGanadorLinea!: Jugador;
   numeroJugadores: number = 0;
   numeroActual: number = 0;
   numerosBingo: number[] = [];
+  numerosLinea1: number[] = [];
+  numerosLinea2: number[] = [];
+  numerosLinea3: number[] = [];
+  filtered: number[] = [];
   numeroAcertado: boolean = false;
   mostrarBotonInicio: boolean = true;
   mostrarCartones: boolean = false;
@@ -22,7 +27,8 @@ export class BingoComponent implements OnInit {
   mostrarBotonComenzar: boolean = false;
   mostrarBotonNumero: boolean = false;
   mostrarBotonNuevaPartida: boolean = false;
-  mostrarGanador: boolean = false;
+  mostrarGanadorLinea: boolean = false;
+  mostrarGanadorBingo: boolean = false;
 
   constructor() { }
 
@@ -72,6 +78,7 @@ export class BingoComponent implements OnInit {
         this.numeros.splice(index, 1);
       }
       for (let i = 0; i < this.jugadores.length; i++) {
+        this.comprobarLinea(this.jugadores[i]);
         let filtered = this.jugadores[i].carton.filter((number) =>{
           if(!this.numerosBingo.includes(number)){
             return true;
@@ -80,7 +87,7 @@ export class BingoComponent implements OnInit {
           }
         }) 
         if(filtered.length == 0){
-          this.mostrarGanador = true;
+          this.mostrarGanadorBingo = true;
           this.jugadorGanador = new Jugador();
           this.jugadorGanador.nombre = this.jugadores[i].nombre;
           this.mostrarBotonNumero = false;
@@ -89,6 +96,61 @@ export class BingoComponent implements OnInit {
         }
       }
     }  
+  }
+
+  comprobarLinea(jugador: Jugador){
+    let numerosCarton = jugador.carton;
+    for (let j = 0; j < numerosCarton.length; j++) {
+      if(j >= 0 && j < 5){
+        this.numerosLinea1.push(numerosCarton[j]);
+      }else if(j >= 5 && j < 10){
+        this.numerosLinea2.push(numerosCarton[j]);
+      }else if(j >= 10 && j < 15){
+        this.numerosLinea3.push(numerosCarton[j]);
+      }
+    }
+    this.filtered = this.numerosLinea1.filter((number) =>{
+      if(!this.numerosBingo.includes(number)){
+        return true;
+      }else{
+        return false;
+      }
+    })
+    if(this.filtered.length == 0 && this.mostrarGanadorLinea == false){
+      this.mostrarGanadorLinea = true;
+      this.jugadorGanadorLinea = new Jugador();
+      this.jugadorGanadorLinea.nombre = jugador.nombre;
+      this.jugadorGanadorLinea.carton = this.numerosLinea1;
+    }
+    this.filtered = this.numerosLinea2.filter((number) =>{
+      if(!this.numerosBingo.includes(number)){
+        return true;
+      }else{
+        return false;
+      }
+    })
+    if(this.filtered.length == 0 && this.mostrarGanadorLinea == false){
+      this.mostrarGanadorLinea = true;
+      this.jugadorGanadorLinea = new Jugador();
+      this.jugadorGanadorLinea.nombre = jugador.nombre;
+      this.jugadorGanadorLinea.carton = this.numerosLinea2;
+    }
+    this.filtered = this.numerosLinea3.filter((number) =>{
+      if(!this.numerosBingo.includes(number)){
+        return true;
+      }else{
+        return false;
+      }
+    })
+    if(this.filtered.length == 0 && this.mostrarGanadorLinea == false){
+      this.mostrarGanadorLinea = true;
+      this.jugadorGanadorLinea = new Jugador();
+      this.jugadorGanadorLinea.nombre = jugador.nombre;
+      this.jugadorGanadorLinea.carton = this.numerosLinea3;
+    }
+    this.numerosLinea1 = [];
+    this.numerosLinea2 = [];
+    this.numerosLinea3 = [];
   }
 
   comprobarNumero(numero: number) {
@@ -101,10 +163,15 @@ export class BingoComponent implements OnInit {
 
   nuevaPartida(){
     this.numerosBingo = [];
+    this.numerosLinea1 = [];
+    this.numerosLinea2 = [];
+    this.numerosLinea3 = [];
     this.numeros = [];
     this.jugadores = [];
+    this.filtered = [];
     this.mostrarBotonInicio = true;
-    this.mostrarGanador = false;
+    this.mostrarGanadorBingo = false;
+    this.mostrarGanadorLinea = false;
     this.mostrarNumeros = false;
     this.mostrarBotonNuevaPartida = false;
     this.ngOnInit();
